@@ -71,6 +71,16 @@ def bwconvert(state):
     (ip.bw)(state['processed'])
     state['needsDisplayUpdate'] = True
     return state
+
+def lighter(state):
+    (ip.light)(state['processed'])
+    state['needsDisplayUpdate'] = True
+    return state
+
+def darker(state):
+    (ip.dark)(state['processed'])
+    state['needsDisplayUpdate'] = True
+    return state
     
 
 ################################################################
@@ -89,6 +99,8 @@ menu = {
     114 : reset,     # r
     108 : load,      # l
     115 : save,      # s
-    98 : bwconvert   # b 
+    98 : bwconvert,  # b
+    100 : darker,    # d
+    105 : lighter    # i
     }
 

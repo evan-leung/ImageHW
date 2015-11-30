@@ -32,6 +32,41 @@ def channel(pixel,chan):
 def inverse(pixel):
     return (255-pixel[0], 255-pixel[1], 255-pixel[2])
 
+def lighten(pixel):
+    red_intensity = int(pixel[0])
+    green_intensity = int(pixel[1])
+    blue_intensity = int(pixel[2])
+    if (red_intensity + 10 > 255) :
+        red_intensity = red_intensity
+    else :
+        red_intensity = red_intensity+10
+    if (green_intensity + 10 > 255) :
+        green_intensity = green_intensity
+    else :
+        green_intensity = green_intensity+10
+    if (blue_intensity + 10 > 255) :
+        blue_intensity = blue_intensity
+    else :
+        blue_intensity = blue_intensity+10
+    return ((red_intensity, green_intensity, blue_intensity))
+
+def darken(pixel):
+    red_intensity = int(pixel[0])
+    green_intensity = int(pixel[1])
+    blue_intensity = int(pixel[2])
+    if (red_intensity - 10 < 0) :
+        red_intensity = red_intensity
+    else :
+        red_intensity = red_intensity-10
+    if (green_intensity - 10 < 0) :
+        green_intensity = green_intensity
+    else :
+        green_intensity = green_intensity-10
+    if (blue_intensity - 10 < 0) :
+        blue_intensity = blue_intensity
+    else :
+        blue_intensity = blue_intensity-10
+    return ((red_intensity, green_intensity, blue_intensity))
 
 # intensify: pixel -> nat255 -> pixel
 # brighten each channel of pixel by quantity
@@ -42,15 +77,14 @@ def inverse(pixel):
 # individual pixel intensity, never returning a result
 # greater than 255 or less than 0.
 #
-def intensify(pixel,quantity):
-    return (pixel[0]+quantity, pixel[1]+quantity, pixel[2]+quantity)
+#def intensify(pixel,quantity):
+#return (pixel[0]+quantity, pixel[1]+quantity, pixel[2]+quantity)
 
 
 ################### IMAGE OPERATIONS ######################
 
 # invert: modifies image pixel array of image_surf in place
 # replace each pixel with its photographic "negative"
-#
 def invert(image_surf):
 
     # get pixel dimensions of image
@@ -83,3 +117,30 @@ def bw(image_surf):
         for y in range(cols):
             pixels3d[x,y] = grayPixel(pixels3d[x,y])
 
+def light(image_surf):
+
+    # get pixel dimensions of image
+    rows = image_surf.get_size()[0]
+    cols = image_surf.get_size()[1]
+
+    # get reference to and lock pixel array
+    pixels3d = pg.surfarray.pixels3d(image_surf)
+
+    # update pixels in place (side effect!)
+    for x in range(rows):
+        for y in range(cols):
+            pixels3d[x,y] = lighten(pixels3d[x,y])
+
+def dark(image_surf):
+
+    # get pixel dimensions of image
+    rows = image_surf.get_size()[0]
+    cols = image_surf.get_size()[1]
+
+    # get reference to and lock pixel array
+    pixels3d = pg.surfarray.pixels3d(image_surf)
+
+    # update pixels in place (side effect!)
+    for x in range(rows):
+        for y in range(cols):
+            pixels3d[x,y] = darken(pixels3d[x,y])
